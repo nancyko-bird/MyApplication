@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}我的王国{% endblock %}
+{% block page-wrapper %}
+  <div class="page-wrapper " style="z-index: 0">
+    <!-- Page header -->
+    <div class="page-header d-print-none">
+      <div class="container-xl">
+        <div class="row g-2 align-items-center">
+          <div class="col">
+            <h2 class="page-title text-white">
+              应用列表
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Page body -->
+    <div class="page-body">
+      <div class="container-xl">
+        <div class="row row-cards">
+             <div class="col-lg-4"> 
+                <a class="card card-link rounded-4 opacity-85 shadow-lg" style="border: none;" href="{% url 'pmindex' %}">
+                      <img src="{% static 'img/bg6.png' %}" class="card-img rounded-4" alt="...">
+                      <div class="card-img-overlay d-flex align-items-center justify-content-center">
+                        <p class="empty-title">密码管理系统</p>
+                      </div>
+                </a>
+             </div>
+             <div class="col-lg-4"> 
+                <a class="card card-link rounded-4 opacity-85 shadow-lg" style="border: none;" href="{% url 'ledgerindex' %}">
+                      <img src="{% static 'img/bg6.png' %}" class="card-img rounded-4" alt="...">
+                      <div class="card-img-overlay d-flex align-items-center justify-content-center">
+                        <p class="empty-title">账本管理系统</p>
+                      </div>
+                </a>
+             </div>
+             <div class="col-lg-4"> 
+                <a class="card card-link rounded-4 opacity-85 shadow-lg" style="border: none;" href="{% url 'personindex' %}">
+                      <img src="{% static 'img/bg6.png' %}" class="card-img rounded-4" alt="...">
+                      <div class="card-img-overlay d-flex align-items-center justify-content-center">
+                        <p class="empty-title">个人信息系统</p>
+                      </div>
+                </a>
+             </div>
+             <div class="col-lg-4"> 
+                <a class="card card-link rounded-4 opacity-85 shadow-lg" style="border: none;" href="./">
+                      <img src="{% static 'img/bg6.png' %}" class="card-img rounded-4" alt="...">
+                      <div class="card-img-overlay d-flex align-items-center justify-content-center">
+                        <p class="empty-title">日记系统</p>
+                      </div>
+                </a>
+             </div>
+             <div class="col-lg-4"> 
+                <a class="card card-link rounded-4 opacity-85 shadow-lg" style="border: none;" href="{% url 'cbindex' %}">
+                      <img src="{% static 'img/bg6.png' %}" class="card-img rounded-4" alt="...">
+                      <div class="card-img-overlay d-flex align-items-center justify-content-center">
+                        <p class="empty-title">菜谱管理系统</p>
+                      </div>
+                </a>
+             </div>
+             <div class="col-lg-4"> 
+                <a class="card card-link rounded-4 opacity-85 shadow-lg" style="border: none;" href="./">
+                      <img src="{% static 'img/bg6.png' %}" class="card-img rounded-4" alt="...">
+                      <div class="card-img-overlay d-flex align-items-center justify-content-center">
+                        <p class="empty-title">开源库收集系统</p>
+                      </div>
+                </a>
+             </div>            
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

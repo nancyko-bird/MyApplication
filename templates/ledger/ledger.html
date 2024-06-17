@@ -1,0 +1,164 @@
+{% extends "ledger/index.html" %}
+{% load static %}
+{% block search %}
+	{% url 'search_account' %}
+{% endblock %}
+{% block search_page %}
+      <div class="me-2">
+        <h3>账本名称：{{ ledger_name }} >>>>>>> 共 {{ account_num }} 条记录</h3>
+      </div>
+{% endblock %}
+{% block table-content %}
+	<table class="table card-table table-vcenter text-nowrap datatable">
+      <thead>
+        <tr>
+          <th class="w-1">ID</th>
+          <th>理论收入</th>
+          <th>实际收入</th>
+          <th>理论支出</th>
+          <th>实际支出</th>
+          <th>理论余额</th>
+          <th>实际余额</th>
+          <th>差额</th>
+          <th>备注</th>
+          <th>创建时间</th>  
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+          {% for p in page_obj.object_list %}
+            <tr>
+              <td><span class="text-secondary">{{ p.id }}</span></td>
+              <td>{{ p.theoretical_income }}</td>
+              <td>{{ p.actual_income }}</td>
+              <td>{{ p.theoretical_expenditure }}</td>
+              <td>{{ p.actual_expenditure }}</td>
+              <td>{{ p.theoretical_balance }}</td>
+              <td>{{ p.actual_balance }}</td>  
+              <td>{{ p.difference }}</td>
+              <td>{{ p.remark }}</td>
+              <td>{{ p.created_at }}</td>
+              <td class="text-end">
+                <span>
+                  <a type="button" class="btn align-text-top btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ p.id }}">编辑</a>
+                  <a type="button" class="btn align-text-top btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ p.id }}">删除</a>
+                </span>
+              </td>
+            </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+{% endblock %}
+
+{% block add-form %}  
+  <form method="post" action="{% url 'add_account' lid=ledger_id%}">
+    {% csrf_token %}
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="mb-3">
+            <label class="form-label">理论收入</label>
+            <input type="number" step="0.01" min="0" max="99999999.99" class="form-control" name="theoretical_income">
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="mb-3">
+            <label class="form-label">实际收入</label>
+            <input type="number" step="0.01" min="0" max="99999999.99" class="form-control" name="actual_income">
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="mb-3">
+            <label class="form-label">理论支出</label>
+            <input type="number" step="0.01" min="0" max="99999999.99" class="form-control" name="theoretical_expenditure">
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="mb-3">
+            <label class="form-label">实际支出</label>
+            <input type="number" step="0.01" min="0" max="99999999.99" class="form-control" name="actual_expenditure">
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div>
+            <label class="form-label">备注</label>
+            <textarea class="form-control" rows="3" name="remark"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-outline-secondary link-secondary" data-bs-dismiss="modal">
+          取消
+        </a>
+        <button type="submit" class="btn btn-primary ms-auto">
+          <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M12 5l0 14" />
+              <path d="M5 12l14 0" />
+          </svg>
+          添加
+        </button>
+      </div>
+  </form>
+{% endblock %}
+{% block edit-form %}  
+  <form method="post" action="{% url 'edit_account' lid=ledger_id aid=p.id %}">
+      {% csrf_token %}
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="mb-3">
+            <label class="form-label">理论收入</label>
+            <input type="text" class="form-control" name="theoretical_income" value="{{ p.theoretical_income }}">
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="mb-3">
+            <label class="form-label">实际收入</label>
+            <input type="text" class="form-control" name="actual_income" value="{{ p.actual_income }}">
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="mb-3">
+            <label class="form-label">理论支出</label>
+            <input type="text" class="form-control" name="theoretical_expenditure" value="{{ p.theoretical_expenditure }}">
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="mb-3">
+            <label class="form-label">实际支出</label>
+            <input type="text" class="form-control" name="actual_expenditure" value="{{ p.actual_expenditure }}">
+          </div>
+        </div>  
+        <div class="col-lg-12">
+          <div>
+            <label class="form-label">备注</label>
+            <textarea class="form-control" rows="3" name="remark">{{ p.remark }}</textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-outline-secondary link-secondary" data-bs-dismiss="modal">
+          取消
+        </a>
+        <button type="submit" class="btn btn-primary ms-auto">
+          <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M12 5l0 14" />
+              <path d="M5 12l14 0" />
+          </svg>
+          提交
+        </button>
+      </div>
+  </form>
+{% endblock %}
+{% block delete_warning %}
+    <h6 class="text-red">删除记录可能导致账目无法对应！</h6>
+{% endblock %}
+{% block del_href %}
+    <a href="{% url 'delete_account' lid=ledger_id aid=p.id %}" class="btn btn-danger w-100">确定</a>
+{% endblock %}

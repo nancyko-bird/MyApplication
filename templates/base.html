@@ -1,0 +1,144 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>{% block title %}我的应用{% endblock %}</title>
+  
+    <!-- CSS files -->
+    <link href="{% static 'css/tabler.min.css' %}?1692870487" rel="stylesheet"/>
+    <link href="{% static 'css/tabler-flags.min.css' %}?1692870487" rel="stylesheet"/>
+    <link href="{% static 'css/tabler-payments.min.css' %}?1692870487" rel="stylesheet"/>
+    <link href="{% static 'css/tabler-vendors.min.css' %}?1692870487" rel="stylesheet"/>
+    <link href="{% static 'css/demo.min.css' %}?1692870487" rel="stylesheet"/>
+    {% block cssfile %} {% endblock %}
+    <style>
+        body {
+          background-image: url('{% static 'img/bg10.png' %}');
+          background-size: cover;
+          background-position: center;
+         }
+        .no-underline {  
+            text-decoration: none;  
+        }
+        {% block style %} {% endblock %}
+    </style>
+  </head>
+  <body>
+    <script src="{% static 'js/demo-theme.min.js' %}?1692870487"></script>
+    <div class="page">
+      <!-- Navbar -->
+      {% block header %}
+          <header class="navbar navbar-expand-lg d-print-none bg-blue-lt opacity-90" >
+            <div class="container-xl">
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+                <div class="nav-item dropdown">
+                  <div class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+                    <div class="d-flex align-items-center">
+                      <a href="{% url 'index' %}" class="no-underline"><p class="m-0 p-0">我的应用</p></a>
+                      {% block sub_system_name %}{% endblock %}      
+                    </div>
+                  </div>
+                </div>
+                <div class="navbar-nav flex-row order-md-last">
+                    <div class="nav-item d-none d-md-flex me-3">
+                      <div class="btn-list">
+                        {% block test-btn %}{% endblock %}
+                      </div>
+                    </div>
+                    <div class="nav-item mx-2">
+                      <a href="#" class="nav-link d-flex lh-1 text-reset p-0 btn-outline-primary">
+{#                        <span class="avatar avatar-sm" style="background-image: url({% static 'img/038f.jpg' %})"></span>#}
+                        <div class="d-none d-xl-block ps-2">
+                          <div class="btn btn-outline-primary w-100 h-5">欢迎，{{ username }}</div>
+                        </div>
+                      </a>
+                    </div>
+                    <div class="nav-item mx-1">
+                      <a href="#" class="btn btn-outline-primary w-100 h-5">个人中心</a>
+                    </div>
+                    <div class="nav-item mx-1">
+                      <a href="#" class="btn btn-outline-primary w-100 h-5">修改密码</a>
+                    </div>
+                    <div class="nav-item mx-1">
+                      <a href="#" class="btn btn-outline-primary w-100 h-5">备份数据</a>
+                    </div>
+                    <div class="nav-item mx-1">
+                      <a href="{% url 'login' %}" class="btn btn-outline-primary w-100 h-5">退出登录</a>
+                    </div>
+                </div>
+            </div>
+          </header>
+      {% endblock %}
+        
+      <div class="page-wrapper">
+        <main class="d-flex flex-nowrap">
+            {% block navbar %}{% endblock %}
+            {% block page-wrapper %} {% endblock %}
+        </main>
+      </div>  
+    </div>
+    {% block msgmodal %}
+        {#             消息弹出框#}
+          {% if success %}
+                <div class="modal modal-blur fade" id="successModal" tabindex="-1" role="dialog" aria-hidden="true">
+                  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      <div class="modal-status bg-success"></div>
+                      <div class="modal-body text-center py-4">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/circle-check -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-green icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>
+                        <h3>{{ info }}</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+          {% else %}
+            {% if error %}
+                <div class="modal" id="errorModal" tabindex="-1">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title text-danger">操作失败</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body text-danger">
+                        <p>{{ error }}</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            {% endif %}
+          {% endif %}
+            {# 消息弹出框 结束 #}
+    {% endblock %}
+    {% block other %} {% endblock %}
+    <!-- Libs JS -->
+    <!-- Tabler Core -->
+    <script src="{% static 'js/tabler.min.js' %}?1692870487" defer></script>
+    <script src="{% static 'js/demo.min.js' %}?1692870487" defer></script>
+    <script src="{% static 'plugins/bootstrap-5.3.2/js/jquery.min.js'%}"></script>
+    {% block jsfile %} {% endblock %}
+    {% block msgmodaljs %}
+      <script>
+        $(document).ready(function(){
+          // 显示模态框
+          $('#successModal').modal('show');
+          $('#errorModal').modal('show');
+          // 设置定时器，2秒后关闭模态框
+          setTimeout(function(){
+            $('#successModal').modal('hide');
+          }, 2000);
+        });
+      </script>
+    {% endblock %}
+  </body>
+</html>

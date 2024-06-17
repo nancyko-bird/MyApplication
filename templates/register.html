@@ -1,0 +1,150 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>我的王国</title>
+    <!-- CSS files -->
+    <link href="{% static 'css/tabler.min.css' %}?1692870487" rel="stylesheet"/>
+    <link href="{% static 'css/tabler-flags.min.css' %}?1692870487" rel="stylesheet"/>
+    <link href="{% static 'css/tabler-payments.min.css' %}?1692870487" rel="stylesheet"/>
+    <link href="{% static 'css/tabler-vendors.min.css' %}?1692870487" rel="stylesheet"/>
+    <link href="{% static 'css/demo.min.css' %}?1692870487" rel="stylesheet"/>
+{#    <link href="{% static 'plugins/bootstrap-5.3.2/css/bootstrap.min.css' %}" rel="stylesheet">#}
+    <style>
+        body {  
+          background-image: url('{% static 'img/bg2.jpg' %}');
+          {#background-image: url('{% static 'img/bg3.png' %}');#}
+          background-size: cover;  
+          background-position: center;  
+        }
+        .card {  
+          background-color: rgba(255, 255, 255, 0.3); /* 白色背景，80% 透明度 */
+          border-radius: 20px;
+        } 
+    </style>
+  </head>
+  <body class=" d-flex flex-column">
+    <div class="page page-center">
+      <div class="container container-tight py-4">
+        <div class="card card-md">
+          <div class="card-body">
+            <h2 class="h2 text-center mb-4">欢迎注册</h2>
+            <form action="{% url 'user_register' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                {% if error %}
+                   <div class="mb-3">
+                      <p class="mb-0 text-red h3">{{ error }}</p>
+                   </div> 
+                {% endif %}
+              <div class="mb-3">
+                <label class="form-label">用户名</label>
+                <input type="text" class="form-control" placeholder="输入用户名" name="username" autocomplete="off">
+              </div>
+              <div class="mb-2">
+                <label class="form-label">邮箱</label>
+                <div class="input-group input-group-flat">
+                  <input type="email" class="form-control"  placeholder="输入邮箱" name="email" autocomplete="off">
+                </div>
+              </div>
+              <div class="mb-2">
+                <label class="form-label">密码</label>
+                <div class="input-group input-group-flat">
+                  <input type="password" class="form-control"  placeholder="输入密码" name="password" autocomplete="off">
+                </div>
+              </div>
+              <div class="mb-2">
+                <label class="form-label">确认密码</label>
+                <div class="input-group input-group-flat">
+                  <input type="password" class="form-control"  placeholder="再次输入密码" name="confirm_password" autocomplete="off">
+                </div>
+              </div>
+              <div class="form-footer">
+                <button type="submit" class="btn btn-primary w-100">注册</button>
+              </div>
+            </form>
+                <div class="text-center text-secondary mt-3">
+                  已有账户？ <a href="{% url 'login' %}" tabindex="-1">现在登录</a>
+                </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    {#  modal start#}
+    {% if register_success %}
+        <div class="modal modal-blur fade" id="modal-success" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <div class="modal-status bg-success"></div>
+              <div class="modal-body text-center py-4">
+                <!-- Download SVG icon from http://tabler-icons.io/i/circle-check -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-green icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                    <path d="M9 12l2 2l4 -4" />
+                </svg>
+                <h3>{{ register_success }}</h3>
+                <div class="text-secondary">{{ register_info }}</div>
+              </div>
+              <div class="modal-footer">
+                <div class="w-100">
+                  <div class="row">
+                    <div class="col"><a href="#" class="btn w-100" data-bs-dismiss="modal">
+                        取消
+                      </a></div>
+                    <div class="col"><a href="{% url 'login' %}" class="btn btn-primary w-100">
+                        前往登录
+                      </a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    {% else %}
+        {% if register_error %}
+            <div class="modal modal-blur fade" id="modal-danger" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <div class="modal-status bg-danger"></div>
+                  <div class="modal-body text-center py-4">
+                    <!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.24 3.957l-8.422 14.06a1.989 1.989 0 0 0 1.7 2.983h16.845a1.989 1.989 0 0 0 1.7 -2.983l-8.423 -14.06a1.989 1.989 0 0 0 -3.4 0z" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg>
+                    <h3>{{ register_error }}</h3>
+                    <div class="text-secondary">{{ register_info }}</div>
+                  </div>
+                  <div class="modal-footer">
+                    <div class="w-100">
+                      <div class="row">
+                        <div class="col"><a href="#" class="btn w-100" data-bs-dismiss="modal">
+                            取消
+                          </a></div>
+                        <div class="col"><a href="{% url 'login' %}" class="btn btn-primary w-100">
+                            前往登录
+                          </a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        {% endif %}
+    {% endif %}
+    {#    modal end #}
+{#    #}
+    <script src="{% static 'plugins/bootstrap-5.3.2/js/jquery.min.js'%}"></script>
+    <script>
+        $(document).ready(function(){
+          // 显示模态框
+          $('#modal-success').modal('show');
+          $('#modal-danger').modal('show');
+        });
+    </script>
+    <script src="{% static 'plugins/bootstrap-5.3.2/js/bootstrap.bundle.min.js' %}"></script>
+  </body>
+</html>
